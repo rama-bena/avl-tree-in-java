@@ -119,11 +119,78 @@ class AVL {
         return input.tinggi;
     }
 
+    void deleteInAVL(int data){
+        Node node = SearchData(data);
+        Node prev;
+        if(tinggi(node) == 0) return;
+        if(tinggi(node) == 1){
+            prev = deleteInLeaf(node);
+        }
+        else
+        if(haveOneChild(node)){
+            prev = deleteOneChild(node);
+        }
+        else{
+            prev = deleteTwoChild(node);
+        }
+        rebalencing(prev);
+    }
+
+    private boolean haveOneChild(Node node){
+        return node.pKiri == null || node.pKanan == null;
+    }
+
+    private Node deleteTwoChild(Node node) {
+        Node pengganti = nodeTerbesarDiSubTreeKiri(node);
+        Node prev;
+        if(haveOneChild(pengganti)){
+            prev = deleteOneChild(pengganti);
+            node.data = pengganti.data;
+        }
+        else{
+            prev = deleteInLeaf(pengganti);
+            node.data = pengganti.data;
+        }
+        return prev;
+    }
+
+    private Node nodeTerbesarDiSubTreeKiri(Node node){
+        node = node.pKiri;
+        while(node.pKanan != null) node = node.pKanan;
+        return node;
+    }
+
+    private Node deleteOneChild(Node node) {
+        Node parrent = node.pInduk;
+        Node child = (node.pKiri != null) ? node.pKiri : node.pKanan;
+        if(node == root){
+            child.pInduk = null;
+            root = child;
+        }
+        else{
+            if(parrent.pKanan == node) parrent.pKanan = child;
+            else parrent.pKiri = child;
+
+            child.pInduk = parrent;
+        }
+        return parrent;
+    }
+
+    private Node deleteInLeaf(Node node){
+        Node parrent = node.pInduk;
+        if(root == node) root = null;
+        else{
+            if(node.pInduk.pKiri == node) node.pInduk.pKiri = null;
+            else node.pInduk.pKanan = null;
+        }
+        return parrent;
+    }
+
     Node SearchData(int data){
         Node temp = root;
         while(temp != null){
             if(temp.data == data) return temp;
-            temp = (data < temp.data) ? temp.pKiri : temp.pKanan;
+            temp = (data > temp.data) ? temp.pKanan : temp.pKiri;
         }
         return temp;
     }
