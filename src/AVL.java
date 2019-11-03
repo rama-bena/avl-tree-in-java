@@ -5,27 +5,8 @@ class AVL {
     }
 
     void insertToAVL(int data){
-        Node temp = insertNode(data);
-        while(temp != null){
-            if(keseimbangan(temp).equals("imbang")){
-                hitungTinggi(temp);
-            }
-            else if(keseimbangan(temp).equals("left left")){
-                temp = putarKiri(temp);
-            }
-            else if(keseimbangan(temp).equals("right right")){
-                temp = putarKanan(temp);
-            }
-            else if(keseimbangan(temp).equals("left right")){
-                Node temp2 = putarKanan(temp.pKiri);
-                temp = putarKiri(temp2.pInduk);
-            }
-            else if(keseimbangan(temp).equals("right left")){
-                Node temp2 = putarKiri(temp.pKanan);
-                temp = putarKanan(temp2.pInduk);
-            }
-            temp = temp.pInduk;
-        }
+        Node node = insertNode(data);
+        rebalencing(node);
     }
 
     private Node insertNode(int data){
@@ -48,6 +29,29 @@ class AVL {
         if(input.data < prev.data ) prev.pKiri = input;
         else prev.pKanan = input;
         return input;
+    }
+
+    private void rebalencing(Node node){
+        while(node != null){
+            if(keseimbangan(node).equals("imbang")){
+                hitungTinggi(node);
+            }
+            else if(keseimbangan(node).equals("left left")){
+                node = putarKiri(node);
+            }
+            else if(keseimbangan(node).equals("right right")){
+                node = putarKanan(node);
+            }
+            else if(keseimbangan(node).equals("left right")){
+                Node temp2 = putarKanan(node.pKiri);
+                node = putarKiri(temp2.pInduk);
+            }
+            else if(keseimbangan(node).equals("right left")){
+                Node temp2 = putarKiri(node.pKanan);
+                node = putarKanan(temp2.pInduk);
+            }
+            node = node.pInduk;
+        }
     }
 
     private String keseimbangan(Node node){
@@ -113,6 +117,15 @@ class AVL {
     private int tinggi(Node input){
         if(input == null) return 0;
         return input.tinggi;
+    }
+
+    Node SearchData(int data){
+        Node temp = root;
+        while(temp != null){
+            if(temp.data == data) return temp;
+            temp = (data < temp.data) ? temp.pKiri : temp.pKanan;
+        }
+        return temp;
     }
 
     void tampilkan(Node input) {
