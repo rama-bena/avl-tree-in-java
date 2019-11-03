@@ -10,7 +10,7 @@ class MainClass {
         while (true){
             System.out.print("Masukkan data : ");
             data = baca.nextInt();
-            myAVL.insertNode(data);
+            myAVL.insertToAVL(data);
             System.out.printf("memasukkan %d\n", data); myAVL.tampilkan(myAVL.root);
         }
     }

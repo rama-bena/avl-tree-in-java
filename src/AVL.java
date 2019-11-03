@@ -4,30 +4,9 @@ class AVL {
         root = null;
     }
 
-    void insertNode(int dt){
-        Node input = new Node(dt);
-        Node temp = root;
-        Node prev = null;
-        if(root == null){
-            root = input;
-            return;
-        }
+    void insertToAVL(int data){
 
-        while(temp != null){
-            prev = temp;
-            if(input.data < temp.data)
-                temp = temp.pKiri;
-            else
-                temp = temp.pKanan;
-        }
-        input.pInduk = prev;
-
-        if(input.data < prev.data )
-            prev.pKiri = input;
-        else
-            prev.pKanan = input;
-
-        temp = input;
+        Node temp = insertNode(data);
         while(temp != null){
             if(keseimbangan(temp).equals("imbang")){
                 hitungTinggi(temp);
@@ -50,6 +29,27 @@ class AVL {
         }
     }
 
+    private Node insertNode(int data){
+        Node node = new Node(data);
+        Node temp = root;
+        Node prev = null;
+        if(root == null){
+            root = node;
+            return root;
+        }
+        while(temp != null){
+            prev = temp;
+            if(node.data < temp.data)
+                temp = temp.pKiri;
+            else
+                temp = temp.pKanan;
+        }
+        node.pInduk = prev;
+
+        if(node.data < prev.data ) prev.pKiri = node;
+        else prev.pKanan = node;
+        return node;
+    }
     private String keseimbangan(Node node){
         if(Math.abs(tinggi(node.pKiri) - tinggi(node.pKanan)) <=  1)
             return "imbang";
@@ -103,8 +103,8 @@ class AVL {
         return n2;
     }
 
-    private void hitungTinggi(Node input){
-        input.tinggi = Math.max(tinggi(input.pKiri) , tinggi(input.pKanan)) + 1;
+    private void hitungTinggi(Node node){
+        node.tinggi = Math.max(tinggi(node.pKiri) , tinggi(node.pKanan)) + 1;
     }
 
     private int tinggi(Node input){
