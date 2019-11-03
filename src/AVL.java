@@ -34,7 +34,7 @@ class AVL {
     private void rebalencing(Node node){
         while(node != null){
             if(keseimbangan(node).equals("imbang")){
-                hitungTinggi(node);
+                memberiTinggi(node);
             }
             else if(keseimbangan(node).equals("left left")){
                 node = putarKiri(node);
@@ -84,8 +84,8 @@ class AVL {
         else if(parrent.pKiri == n1) parrent.pKiri = n2;
         else parrent.pKanan = n2;
 
-        hitungTinggi(n1);
-        hitungTinggi(n2);
+        memberiTinggi(n1);
+        memberiTinggi(n2);
         return n2;
     }
 
@@ -105,12 +105,12 @@ class AVL {
         else if(parrent.pKiri == n1) parrent.pKiri = n2;
         else parrent.pKanan = n2;
 
-        hitungTinggi(n1);
-        hitungTinggi(n2);
+        memberiTinggi(n1);
+        memberiTinggi(n2);
         return n2;
     }
 
-    private void hitungTinggi(Node node){
+    private void memberiTinggi(Node node){
         node.tinggi = Math.max(tinggi(node.pKiri) , tinggi(node.pKanan)) + 1;
     }
 
@@ -122,22 +122,20 @@ class AVL {
     void deleteInAVL(int data){
         Node node = SearchData(data);
         Node prev;
-        if(tinggi(node) == 0) return;
+        if(node == null) return;
         if(tinggi(node) == 1){
             prev = deleteInLeaf(node);
         }
-        else
-        if(haveOneChild(node)){
+        else if(haveOneChild(node))
             prev = deleteOneChild(node);
-        }
-        else{
+        else
             prev = deleteTwoChild(node);
-        }
+
         rebalencing(prev);
     }
 
     private boolean haveOneChild(Node node){
-        return node.pKiri == null || node.pKanan == null;
+        return (node.pKiri == null) ^ (node.pKanan == null);
     }
 
     private Node deleteTwoChild(Node node) {
@@ -186,13 +184,13 @@ class AVL {
         return parrent;
     }
 
-    Node SearchData(int data){
+    private Node SearchData(int data){
         Node temp = root;
         while(temp != null){
             if(temp.data == data) return temp;
             temp = (data > temp.data) ? temp.pKanan : temp.pKiri;
         }
-        return temp;
+        return null;
     }
 
     void tampilkan(Node input) {
