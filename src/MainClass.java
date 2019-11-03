@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class MainClass {
+class MainClass {
     public static void main(String[] args) {
 
         System.out.println("AVL Tree");

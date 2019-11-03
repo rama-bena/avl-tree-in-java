@@ -1,4 +1,4 @@
-public class AVL {
+class AVL {
     Node root;
     AVL(){
         root = null;
@@ -29,30 +29,40 @@ public class AVL {
 
         temp = input;
         while(temp != null){
-            if(Math.abs(tinggi(temp.pKiri) - tinggi(temp.pKanan)) <=  1){
-                temp.tinggi = Math.max(tinggi(temp.pKiri) , tinggi(temp.pKanan)) + 1;
+            if(keseimbangan(temp).equals("imbang")){
+                hitungTinggi(temp);
             }
-            // left left (outer)
-            else if(tinggi(temp.pKiri) > tinggi(temp.pKanan) && tinggi(temp.pKiri.pKiri) >= tinggi(temp.pKiri.pKanan)){
+            else if(keseimbangan(temp).equals("left left")){
                 temp = putarKiri(temp);
             }
-            // right right (outer)
-            else if(tinggi(temp.pKanan) > tinggi(temp.pKiri) && tinggi(temp.pKanan.pKanan) >= tinggi(temp.pKanan.pKiri)){
+            else if(keseimbangan(temp).equals("right right")){
                 temp = putarKanan(temp);
             }
-            //left right (inner)
-            else if(tinggi(temp.pKiri) > tinggi(temp.pKanan) && tinggi(temp.pKiri.pKanan) > tinggi(temp.pKiri.pKiri)){
+            else if(keseimbangan(temp).equals("left right")){
                 Node temp2 = putarKanan(temp.pKiri);
                 temp = putarKiri(temp2.pInduk);
             }
-
-            // right left (inner)
-            else if(tinggi(temp.pKanan) > tinggi(temp.pKiri) && tinggi(temp.pKanan.pKiri) > tinggi(temp.pKanan.pKanan)){
+            else if(keseimbangan(temp).equals("right left")){
                 Node temp2 = putarKiri(temp.pKanan);
                 temp = putarKanan(temp2.pInduk);
             }
             temp = temp.pInduk;
         }
+    }
+
+    private String keseimbangan(Node node){
+        if(Math.abs(tinggi(node.pKiri) - tinggi(node.pKanan)) <=  1)
+            return "imbang";
+        if(tinggi(node.pKiri) > tinggi(node.pKanan) && tinggi(node.pKiri.pKiri) >= tinggi(node.pKiri.pKanan))
+            return "left left";
+        if(tinggi(node.pKanan) > tinggi(node.pKiri) && tinggi(node.pKanan.pKanan) >= tinggi(node.pKanan.pKiri))
+            return "right right";
+        if(tinggi(node.pKiri) > tinggi(node.pKanan) && tinggi(node.pKiri.pKanan) > tinggi(node.pKiri.pKiri))
+            return "left right";
+        if(tinggi(node.pKanan) > tinggi(node.pKiri) && tinggi(node.pKanan.pKiri) > tinggi(node.pKanan.pKanan))
+            return "right left";
+
+        return "gagal";
     }
 
     private Node putarKiri(Node n1){

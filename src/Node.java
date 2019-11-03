@@ -1,4 +1,4 @@
-public class Node {
+class Node {
     int data;
     int tinggi;
     Node pKiri;
