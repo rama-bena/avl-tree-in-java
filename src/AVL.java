@@ -4,11 +4,40 @@ class AVL {
         root = null;
     }
 
+    // method yang bisa dipanggil
     void insertToAVL(int data){
         Node node = insertNode(data);
         rebalencing(node);
     }
 
+    void deleteInAVL(int data){
+        Node node = SearchData(data);
+        Node prev;
+        if(node == null) return;
+        if(tinggi(node) == 1){
+            prev = deleteInLeaf(node);
+        }
+        else if(haveOneChild(node))
+            prev = deleteOneChild(node);
+        else
+            prev = deleteTwoChild(node);
+
+        rebalencing(prev);
+    }
+
+    void tampilkan(Node input) {
+        if (input == null) return;
+        System.out.printf("%d : ", input.data);
+        if (input.pKiri != null)
+            System.out.printf("kiri=%d ", input.pKiri.data);
+        if (input.pKanan != null)
+            System.out.printf("kanan=%d ", input.pKanan.data);
+        System.out.println();
+        tampilkan(input.pKiri);
+        tampilkan(input.pKanan);
+    }
+
+    // method bantuan
     private Node insertNode(int data){
         Node input = new Node(data);
         Node temp = root;
@@ -119,21 +148,6 @@ class AVL {
         return input.tinggi;
     }
 
-    void deleteInAVL(int data){
-        Node node = SearchData(data);
-        Node prev;
-        if(node == null) return;
-        if(tinggi(node) == 1){
-            prev = deleteInLeaf(node);
-        }
-        else if(haveOneChild(node))
-            prev = deleteOneChild(node);
-        else
-            prev = deleteTwoChild(node);
-
-        rebalencing(prev);
-    }
-
     private boolean haveOneChild(Node node){
         return (node.pKiri == null) ^ (node.pKanan == null);
     }
@@ -191,17 +205,5 @@ class AVL {
             temp = (data > temp.data) ? temp.pKanan : temp.pKiri;
         }
         return null;
-    }
-
-    void tampilkan(Node input) {
-        if (input == null) return;
-        System.out.printf("%d : ", input.data);
-        if (input.pKiri != null)
-            System.out.printf("kiri=%d ", input.pKiri.data);
-        if (input.pKanan != null)
-            System.out.printf("kanan=%d ", input.pKanan.data);
-        System.out.println();
-        tampilkan(input.pKiri);
-        tampilkan(input.pKanan);
     }
 }
