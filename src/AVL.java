@@ -43,63 +43,61 @@ public class AVL {
             //left right (inner)
             else if(tinggi(temp.pKiri) > tinggi(temp.pKanan) && tinggi(temp.pKiri.pKanan) > tinggi(temp.pKiri.pKiri)){
                 Node temp2 = putarKanan(temp.pKiri);
-                temp = putarKiri(temp);
+                temp = putarKiri(temp2.pInduk);
             }
 
             // right left (inner)
             else if(tinggi(temp.pKanan) > tinggi(temp.pKiri) && tinggi(temp.pKanan.pKiri) > tinggi(temp.pKanan.pKanan)){
                 Node temp2 = putarKiri(temp.pKanan);
-                temp = putarKanan(temp);
+                temp = putarKanan(temp2.pInduk);
             }
             temp = temp.pInduk;
         }
     }
 
-    private Node putarKiri(Node input){
-        Node parrent = input.pInduk;
-        Node k1 = input;
-        Node k2 = input.pKiri;
+    private Node putarKiri(Node n1){
+        Node parrent = n1.pInduk;
+        Node n2 = n1.pKiri;
 
-        k1.pKiri = k2.pKanan;
-        if(k2.pKanan != null) k2.pKanan.pInduk = k1;
+        n1.pKiri = n2.pKanan;
+        if(n2.pKanan != null) n2.pKanan.pInduk = n1;
 
-        k2.pKanan = k1;
-        k1.pInduk = k2;
+        n2.pKanan = n1;
+        n1.pInduk = n2;
 
-        k2.pInduk = parrent;
+        n2.pInduk = parrent;
         if(parrent == null)
-            root = k2;
-        else if(parrent.pKiri == k1)
-            parrent.pKiri = k2;
+            root = n2;
+        else if(parrent.pKiri == n1)
+            parrent.pKiri = n2;
         else
-            parrent.pKanan = k2;
+            parrent.pKanan = n2;
 
-        hitungTinggi(k1);
-        hitungTinggi(k2);
-        return k2;
+        hitungTinggi(n1);
+        hitungTinggi(n2);
+        return n2;
     }
 
-    private Node putarKanan(Node input){
-        Node parrent = input.pInduk;
-        Node k1 = input;
-        Node k2 = input.pKanan;
+    private Node putarKanan(Node n1){
+        Node parrent = n1.pInduk;
+        Node n2 = n1.pKanan;
 
-        k1.pKanan = k2.pKiri;
-        if(k2.pKiri != null)
-            k2.pKiri.pInduk = k1;
+        n1.pKanan = n2.pKiri;
+        if(n2.pKiri != null)
+            n2.pKiri.pInduk = n1;
 
-        k2.pKiri = k1;
-        k1.pInduk = k2;
+        n2.pKiri = n1;
+        n1.pInduk = n2;
 
-        k2.pInduk = parrent;
-        return k2;
+        n2.pInduk = parrent;
+        return n2;
     }
 
-    void hitungTinggi(Node input){
+    private void hitungTinggi(Node input){
         input.tinggi = Math.max(tinggi(input.pKiri) , tinggi(input.pKanan)) + 1;
     }
 
-    int tinggi(Node input){
+    private int tinggi(Node input){
         if(input == null) return 0;
         return input.tinggi;
     }
