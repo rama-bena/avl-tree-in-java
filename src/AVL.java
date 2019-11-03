@@ -5,7 +5,6 @@ class AVL {
     }
 
     void insertToAVL(int data){
-
         Node temp = insertNode(data);
         while(temp != null){
             if(keseimbangan(temp).equals("imbang")){
@@ -30,26 +29,27 @@ class AVL {
     }
 
     private Node insertNode(int data){
-        Node node = new Node(data);
+        Node input = new Node(data);
         Node temp = root;
         Node prev = null;
         if(root == null){
-            root = node;
+            root = input;
             return root;
         }
         while(temp != null){
             prev = temp;
-            if(node.data < temp.data)
+            if(input.data < temp.data)
                 temp = temp.pKiri;
             else
                 temp = temp.pKanan;
         }
-        node.pInduk = prev;
+        input.pInduk = prev;
 
-        if(node.data < prev.data ) prev.pKiri = node;
-        else prev.pKanan = node;
-        return node;
+        if(input.data < prev.data ) prev.pKiri = input;
+        else prev.pKanan = input;
+        return input;
     }
+
     private String keseimbangan(Node node){
         if(Math.abs(tinggi(node.pKiri) - tinggi(node.pKanan)) <=  1)
             return "imbang";
@@ -100,6 +100,12 @@ class AVL {
         n1.pInduk = n2;
 
         n2.pInduk = parrent;
+        if(parrent == null) root = n2;
+        else if(parrent.pKiri == n1) parrent.pKiri = n2;
+        else parrent.pKanan = n2;
+
+        hitungTinggi(n1);
+        hitungTinggi(n2);
         return n2;
     }
 
