@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 class MainClass {
     public static void main(String[] args) {
-
         System.out.println("AVL Tree");
         AVL myAVL = new AVL();
         Scanner baca = new Scanner(System.in);

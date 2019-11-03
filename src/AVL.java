@@ -76,12 +76,9 @@ class AVL {
         n1.pInduk = n2;
 
         n2.pInduk = parrent;
-        if(parrent == null)
-            root = n2;
-        else if(parrent.pKiri == n1)
-            parrent.pKiri = n2;
-        else
-            parrent.pKanan = n2;
+        if(parrent == null) root = n2;
+        else if(parrent.pKiri == n1) parrent.pKiri = n2;
+        else parrent.pKanan = n2;
 
         hitungTinggi(n1);
         hitungTinggi(n2);
