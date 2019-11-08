@@ -26,6 +26,7 @@ class MainClass {
                     myAVL.deleteInAVL(data);
                     break;
                 default:
+                    baca.close();
                     return;
             }
             System.out.println("\n\nTampilan Tree : ");
