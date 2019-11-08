@@ -1,7 +1,7 @@
 ### Mencoba membuat AVL tree yang rapi
 
-- using intellij idea
-- using java 1.8
+- memakai java 1.8
+- file java terdapat pada folder src
 
 ## Node.java
 - atribut :
