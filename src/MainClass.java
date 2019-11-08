@@ -9,7 +9,8 @@ class MainClass {
         Scanner baca = new Scanner(System.in);
         while (true){
             System.out.println("Menu : ");
-            System.out.printf("1. Insert\n").printf("2. Delete\n").printf("Masukkan pilihan anda : ");
+            System.out.printf("1. Insert\n").printf("2. Delete\n");
+            System.out.printf("3. Search\n").printf("Masukkan pilihan anda : ");
             int pilihan = baca.nextInt();
             System.out.println();
             int data;
@@ -24,6 +25,15 @@ class MainClass {
                     System.out.printf("Masukkan data yg ingin di delete : ");
                     data = baca.nextInt();
                     myAVL.deleteInAVL(data);
+                    break;
+                case 3 :
+                    System.out.printf("Masukkan data yang ingin di cari : ");
+                    data = baca.nextInt();
+                    boolean hasData = myAVL.searchInAVL(data);
+                    if(hasData)
+                        System.out.println("Data terdapat pada AVL");
+                    else
+                        System.out.println("Data tidak terdapat pada AVL");
                     break;
                 default:
                     baca.close();

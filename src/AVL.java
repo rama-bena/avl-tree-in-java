@@ -14,7 +14,7 @@ class AVL {
         Node node = SearchData(data);
         Node prev;
         if(node == null) return;
-        if(tinggi(node) == 1){
+        if(cekTinggi(node) == 1){
             prev = deleteInLeaf(node);
         }
         else if(haveOneChild(node))
@@ -37,8 +37,12 @@ class AVL {
         tampilkan(input.pKanan);
     }
 
+    boolean searchInAVL(int data){
+        return SearchData(data) != null;    
+    }
+    
     // method bantuan
-    private Node insertNode(int data){
+    private Node insertNode(int data){ //memasukkan node seperti BST biasa dan return node inputan
         Node input = new Node(data);
         Node temp = root;
         Node prev = null;
@@ -60,7 +64,7 @@ class AVL {
         return input;
     }
 
-    private void rebalencing(Node node){
+    private void rebalencing(Node node){ //melakukan balancing dari node parameter sampai root
         while(node != null){
             if(keseimbangan(node).equals("imbang")){
                 memberiTinggi(node);
@@ -83,19 +87,19 @@ class AVL {
         }
     }
 
-    private String keseimbangan(Node node){
-        if(Math.abs(tinggi(node.pKiri) - tinggi(node.pKanan)) <=  1)
+    private String keseimbangan(Node node){ // mengecek keseimbangan dari suatu node
+        if(Math.abs(cekTinggi(node.pKiri) - cekTinggi(node.pKanan)) <=  1)
             return "imbang";
-        if(tinggi(node.pKiri) > tinggi(node.pKanan) && tinggi(node.pKiri.pKiri) >= tinggi(node.pKiri.pKanan))
+        if(cekTinggi(node.pKiri) > cekTinggi(node.pKanan) && cekTinggi(node.pKiri.pKiri) >= cekTinggi(node.pKiri.pKanan))
             return "left left";
-        if(tinggi(node.pKanan) > tinggi(node.pKiri) && tinggi(node.pKanan.pKanan) >= tinggi(node.pKanan.pKiri))
+        if(cekTinggi(node.pKanan) > cekTinggi(node.pKiri) && cekTinggi(node.pKanan.pKanan) >= cekTinggi(node.pKanan.pKiri))
             return "right right";
-        if(tinggi(node.pKiri) > tinggi(node.pKanan) && tinggi(node.pKiri.pKanan) > tinggi(node.pKiri.pKiri))
+        if(cekTinggi(node.pKiri) > cekTinggi(node.pKanan) && cekTinggi(node.pKiri.pKanan) > cekTinggi(node.pKiri.pKiri))
             return "left right";
-        if(tinggi(node.pKanan) > tinggi(node.pKiri) && tinggi(node.pKanan.pKiri) > tinggi(node.pKanan.pKanan))
+        if(cekTinggi(node.pKanan) > cekTinggi(node.pKiri) && cekTinggi(node.pKanan.pKiri) > cekTinggi(node.pKanan.pKanan))
             return "right left";
 
-        return "gagal";
+        return "gagal mengecek, tapi harusnya sih gak akan gagal";
     }
 
     private Node putarKiri(Node n1){
@@ -140,10 +144,10 @@ class AVL {
     }
 
     private void memberiTinggi(Node node){
-        node.tinggi = Math.max(tinggi(node.pKiri) , tinggi(node.pKanan)) + 1;
+        node.tinggi = Math.max(cekTinggi(node.pKiri) , cekTinggi(node.pKanan)) + 1;
     }
 
-    private int tinggi(Node input){
+    private int cekTinggi(Node input){
         if(input == null) return 0;
         return input.tinggi;
     }
