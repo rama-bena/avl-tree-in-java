@@ -25,7 +25,7 @@ class AVL {
         rebalencing(prev);
     }
 
-    void tampilkan(Node input) {
+    void tampilkan(Node input) { // secara preOrder
         if (input == null) return;
         System.out.printf("%d : ", input.data);
         if (input.pKiri != null)
@@ -38,29 +38,30 @@ class AVL {
     }
 
     boolean searchInAVL(int data){
-        return SearchData(data) != null;    
+        return SearchData(data) != null;
     }
     
     // method bantuan
-    private Node insertNode(int data){ //memasukkan node seperti BST biasa dan return node inputan
+    private Node insertNode(int data){ //memasukkan node seperti BST biasa dan return node inputan 
         Node input = new Node(data);
         Node temp = root;
-        Node prev = null;
+        Node parrent = null;
         if(root == null){
             root = input;
             return root;
         }
+
         while(temp != null){
-            prev = temp;
+            parrent = temp;
             if(input.data < temp.data)
                 temp = temp.pKiri;
             else
                 temp = temp.pKanan;
         }
-        input.pInduk = prev;
+        input.pInduk = parrent;
 
-        if(input.data < prev.data ) prev.pKiri = input;
-        else prev.pKanan = input;
+        if(input.data < parrent.data ) parrent.pKiri = input;
+        else parrent.pKanan = input;
         return input;
     }
 
@@ -70,18 +71,18 @@ class AVL {
                 memberiTinggi(node);
             }
             else if(keseimbangan(node).equals("left left")){
-                node = putarKiri(node);
-            }
-            else if(keseimbangan(node).equals("right right")){
                 node = putarKanan(node);
             }
+            else if(keseimbangan(node).equals("right right")){
+                node = putarKiri(node);
+            }
             else if(keseimbangan(node).equals("left right")){
-                Node temp2 = putarKanan(node.pKiri);
-                node = putarKiri(temp2.pInduk);
+                Node temp2 = putarKiri(node.pKiri);
+                node = putarKanan(temp2.pInduk);
             }
             else if(keseimbangan(node).equals("right left")){
-                Node temp2 = putarKiri(node.pKanan);
-                node = putarKanan(temp2.pInduk);
+                Node temp2 = putarKanan(node.pKanan);
+                node = putarKiri(temp2.pInduk);
             }
             node = node.pInduk;
         }
@@ -99,10 +100,10 @@ class AVL {
         if(cekTinggi(node.pKanan) > cekTinggi(node.pKiri) && cekTinggi(node.pKanan.pKiri) > cekTinggi(node.pKanan.pKanan))
             return "right left";
 
-        return "gagal mengecek, tapi harusnya sih gak akan gagal";
+        return "gagal mengecek, tapi harusnya sih gak akan gagal, dipaksa return sama javanya biar gak error";
     }
 
-    private Node putarKiri(Node n1){
+    private Node putarKanan(Node n1){
         Node parrent = n1.pInduk;
         Node n2 = n1.pKiri;
 
@@ -122,7 +123,7 @@ class AVL {
         return n2;
     }
 
-    private Node putarKanan(Node n1){
+    private Node putarKiri(Node n1){
         Node parrent = n1.pInduk;
         Node n2 = n1.pKanan;
 
@@ -159,14 +160,12 @@ class AVL {
     private Node deleteTwoChild(Node node) {
         Node pengganti = nodeTerbesarDiSubTreeKiri(node);
         Node prev;
-        if(haveOneChild(pengganti)){
+        if(haveOneChild(pengganti))
             prev = deleteOneChild(pengganti);
-            node.data = pengganti.data;
-        }
-        else{
+        else
             prev = deleteInLeaf(pengganti);
-            node.data = pengganti.data;
-        }
+
+        node.data = pengganti.data; //swap node yang dihapus dengan node pengganti
         return prev;
     }
 
